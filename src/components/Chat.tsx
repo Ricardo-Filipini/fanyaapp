@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Plus, Minimize2, Maximize2 } from 'lucide-react';
+import { Send, Plus,  } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { chat } from '../lib/gemini';
 import { supabase } from '../lib/supabase';
@@ -41,7 +41,7 @@ export function Chat() {
 
     if (data) {
       addMessage(data);
-      
+
       if (message.role === 'user' && messages.length === 0) {
         await supabase
           .from('chats')
@@ -68,7 +68,7 @@ export function Chat() {
     try {
       const context = messages.map(m => `${m.role}: ${m.content}`).join('\n');
       const prompt = `${context}\nuser: ${input}`;
-      
+
       const response = await chat(prompt);
       const assistantMessage: Message = { role: 'assistant', content: response };
       await saveMessage(assistantMessage);
@@ -80,16 +80,7 @@ export function Chat() {
   };
 
   if (!isChatExpanded) {
-    return (
-      <button
-        onClick={toggleChat}
-        className={`fixed right-0 top-1/2 -translate-y-1/2 p-4 ${
-          isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-        } shadow-lg rounded-l-lg`}
-      >
-        <Maximize2 size={24} />
-      </button>
-    );
+    return null;
   }
 
   return (
@@ -111,14 +102,6 @@ export function Chat() {
             title="Nova conversa"
           >
             <Plus size={20} />
-          </button>
-          <button
-            onClick={toggleChat}
-            className={`p-2 rounded-lg ${
-              isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
-            }`}
-          >
-            <Minimize2 size={20} />
           </button>
         </div>
       </div>
@@ -165,8 +148,8 @@ export function Chat() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Digite sua mensagem..."
             className={`flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              isDarkMode 
-                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+              isDarkMode
+                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                 : 'bg-white border-gray-300'
             }`}
           />
