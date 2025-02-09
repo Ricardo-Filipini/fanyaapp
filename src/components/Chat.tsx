@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Plus,  } from 'lucide-react';
+import { Send, Plus, Minimize2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { chat } from '../lib/gemini';
 import { supabase } from '../lib/supabase';
@@ -93,7 +93,7 @@ export function Chat() {
         <h2 className="text-lg font-semibold">
           {currentChatId ? 'Chat Atual' : 'Nova Conversa'}
         </h2>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 items-center">
           <button
             onClick={createNewChat}
             className={`p-2 rounded-lg ${
@@ -102,6 +102,15 @@ export function Chat() {
             title="Nova conversa"
           >
             <Plus size={20} />
+          </button>
+          <button
+            onClick={toggleChat}
+            className={`p-2 rounded-lg ${
+              isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
+            }`}
+            title="Minimizar Chat"
+          >
+            <Minimize2 size={20} />
           </button>
         </div>
       </div>

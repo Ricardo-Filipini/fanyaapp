@@ -40,15 +40,17 @@ function App() {
         )}
       </PanelGroup>
 
-      <button
-        onClick={toggleChat}
-        className={`fixed top-4 right-4 p-2 rounded-full shadow-lg z-50 ${
-          isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-white text-gray-900 hover:bg-gray-200'
-        }`}
-        title={isChatExpanded ? "Minimize Chat" : "Maximize Chat"}
-      >
-        {isChatExpanded ? <Minimize2 size={20} /> : <MessageSquare size={20} />}
-      </button>
+      {!isChatExpanded && (
+        <button
+          onClick={toggleChat}
+          className={`fixed top-4 right-4 p-2 rounded-full shadow-lg z-50 ${
+            isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-white text-gray-900 hover:bg-gray-200'
+          }`}
+          title={isChatExpanded ? "Minimize Chat" : "Maximize Chat"}
+        >
+          <MessageSquare size={20} />
+        </button>
+      )}
     </div>
   );
 }
