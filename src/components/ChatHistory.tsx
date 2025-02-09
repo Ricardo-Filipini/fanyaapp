@@ -5,24 +5,15 @@ import { useChatStore, useThemeStore } from '../lib/store';
 import type { Chat } from '../types';
 
 export function ChatHistory() {
-  const [chats, setChats] = useState<Chat[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
-  const { currentChatId, setCurrentChatId, setMessages } = useChatStore();
+  const { currentChatId, setCurrentChatId, setMessages, loadChats, chats, setChats } = useChatStore();
   const { isDarkMode } = useThemeStore();
 
   useEffect(() => {
     loadChats();
-  }, []);
+  }, [loadChats]);
 
-  async function loadChats() {
-    const { data } = await supabase
-      .from('chats')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (data) setChats(data);
-  }
 
   async function selectChat(chatId: string) {
     setCurrentChatId(chatId);
@@ -31,14 +22,14 @@ export function ChatHistory() {
       .select('*')
       .eq('chat_id', chatId)
       .order('created_at', { ascending: true });
-    
+
     if (data) setMessages(data);
   }
 
   async function deleteChat(chatId: string) {
     await supabase.from('chats').delete().eq('id', chatId);
     await supabase.from('messages').delete().eq('chat_id', chatId);
-    await loadChats();
+    loadChats();
     if (currentChatId === chatId) {
       setCurrentChatId(null);
       setMessages([]);
@@ -56,7 +47,7 @@ export function ChatHistory() {
         .from('chats')
         .update({ title: editTitle.trim() })
         .eq('id', chatId);
-      await loadChats();
+      loadChats();
     }
     setEditingId(null);
     setEditTitle('');
@@ -70,7 +61,7 @@ export function ChatHistory() {
           <div
             key={chat.id}
             className={`flex items-center justify-between p-3 rounded-lg ${
-              isDarkMode 
+              isDarkMode
                 ? currentChatId === chat.id ? 'bg-gray-700' : 'hover:bg-gray-700'
                 : currentChatId === chat.id ? 'bg-gray-100' : 'hover:bg-gray-50'
             }`}
@@ -92,7 +83,7 @@ export function ChatHistory() {
                       if (e.key === 'Escape') setEditingId(null);
                     }}
                     className={`w-full px-2 py-1 rounded ${
-                      isDarkMode 
+                      isDarkMode
                         ? 'bg-gray-600 text-white'
                         : 'bg-white text-gray-900'
                     }`}

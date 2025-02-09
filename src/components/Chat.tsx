@@ -7,7 +7,7 @@ import { useChatStore, useThemeStore } from '../lib/store';
 import type { Message } from '../types';
 
 export function Chat() {
-  const { messages, currentChatId, setCurrentChatId, setMessages, addMessage, isChatExpanded, toggleChat } = useChatStore();
+  const { messages, currentChatId, setCurrentChatId, setMessages, addMessage, isChatExpanded, toggleChat, loadChats } = useChatStore();
   const { isDarkMode } = useThemeStore();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +24,7 @@ export function Chat() {
     if (data) {
       setCurrentChatId(data.id);
       setMessages([]);
+      loadChats(); // Call loadChats here to refresh the chat history
     }
   }
 
