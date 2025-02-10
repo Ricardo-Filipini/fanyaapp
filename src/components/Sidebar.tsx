@@ -19,11 +19,11 @@ export function Sidebar() {
           {isExpanded ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
         </button>
       </div>
-      
+
       <nav className="flex-1 p-4">
         <ul className="space-y-4">
           <li>
-            <button 
+            <button
               onClick={() => setCurrentView('history')}
               className={`flex items-center space-x-3 p-2 rounded-lg w-full ${
                 isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
@@ -34,21 +34,21 @@ export function Sidebar() {
             </button>
           </li>
           <li>
-            <button 
+            <button
               onClick={() => setCurrentView('scrape')}
               className={`flex items-center space-x-3 p-2 rounded-lg w-full ${
                 isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
               } ${currentView === 'scrape' ? isDarkMode ? 'bg-gray-700' : 'bg-gray-100' : ''}`}
             >
               <Scissors size={24} />
-              {isExpanded && <span>Web Scrape</span>}
+              {isExpanded && <span>Scrape</span>}
             </button>
           </li>
         </ul>
       </nav>
-      
+
       <div className={`p-4 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-        <button 
+        <button
           onClick={toggleTheme}
           className={`flex items-center space-x-3 p-2 rounded-lg w-full ${
             isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
